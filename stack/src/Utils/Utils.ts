@@ -13,4 +13,8 @@ class Utiles {
         result.texture = texture;
         return result;
     }
+
+    public static horizontalCenter(sumWidth: number, targetWidth: number): number {
+        return (sumWidth - targetWidth) / 2;
+    }
 }

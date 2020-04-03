@@ -107,10 +107,16 @@ class Main extends eui.UILayer {
     private startUI(): void {
         // 加入开始UI组件
         const startUI = new Start();
+        startUI.x = Utiles.horizontalCenter(this.stage.stageWidth, startUI.width);
+
         this.gameLayer.addChild(startUI);
         this.views.push(startUI);
 
+        console.log(startUI.width)
+
         startUI.addEventListener(MainEvent.GameStart, this.gameStart, this);
+
+        console.log(this.stage.stageWidth)
     }
 
     /**游戏开始 */

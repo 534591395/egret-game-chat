@@ -17,6 +17,9 @@ var Utiles = (function () {
         result.texture = texture;
         return result;
     };
+    Utiles.horizontalCenter = function (sumWidth, targetWidth) {
+        return (sumWidth - targetWidth) / 2;
+    };
     return Utiles;
 }());
 __reflect(Utiles.prototype, "Utiles");
