@@ -74,7 +74,10 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 var Main = (function (_super) {
     __extends(Main, _super);
     function Main() {
-        return _super !== null && _super.apply(this, arguments) || this;
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        /**场景堆栈*/
+        _this.views = [];
+        return _this;
     }
     Main.prototype.createChildren = function () {
         _super.prototype.createChildren.call(this);
@@ -98,23 +101,12 @@ var Main = (function (_super) {
     };
     Main.prototype.runGame = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var result, userInfo;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, this.loadResource()];
                     case 1:
                         _a.sent();
                         this.createGameScene();
-                        return [4 /*yield*/, RES.getResAsync("description_json")];
-                    case 2:
-                        result = _a.sent();
-                        return [4 /*yield*/, platform.login()];
-                    case 3:
-                        _a.sent();
-                        return [4 /*yield*/, platform.getUserInfo()];
-                    case 4:
-                        userInfo = _a.sent();
-                        console.log(userInfo);
                         return [2 /*return*/];
                 }
             });
@@ -165,6 +157,26 @@ var Main = (function (_super) {
      * Create scene interface
      */
     Main.prototype.createGameScene = function () {
+        this.gameLayer = new egret.DisplayObjectContainer();
+        this.addChild(this.gameLayer);
+        this.startUI();
+    };
+    Main.prototype.startUI = function () {
+        // 加入开始UI组件
+        var startUI = new Start();
+        this.gameLayer.addChild(startUI);
+        this.views.push(startUI);
+        startUI.addEventListener(MainEvent.GameStart, this.gameStart, this);
+    };
+    /**游戏开始 */
+    Main.prototype.gameStart = function () {
+        var startUI = this.gameLayer.getChildAt(0);
+        if (startUI) {
+            startUI.removeEventListener(MainEvent.GameStart, this.gameStart, this);
+        }
+        this.gameLayer.removeChildAt(0);
+        this.views.shift();
+        // 运行游戏主逻辑    
     };
     /**
      * 根据name关键字创建一个Bitmap对象。name属性请参考resources/resource.json配置文件的内容。

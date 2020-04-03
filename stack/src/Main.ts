@@ -29,6 +29,10 @@
 
 class Main extends eui.UILayer {
 
+    // 游戏场景容器
+    private gameLayer:egret.DisplayObjectContainer;
+    /**场景堆栈*/
+    private views: any[] = [];
 
     protected createChildren(): void {
         super.createChildren();
@@ -60,12 +64,6 @@ class Main extends eui.UILayer {
     private async runGame() {
         await this.loadResource()
         this.createGameScene();
-        const result = await RES.getResAsync("description_json")
-       
-        await platform.login();
-        const userInfo = await platform.getUserInfo();
-        console.log(userInfo);
-
     }
 
     private async loadResource() {
@@ -100,8 +98,32 @@ class Main extends eui.UILayer {
      * Create scene interface
      */
     protected createGameScene(): void {
-        
+        this.gameLayer = new egret.DisplayObjectContainer();
+        this.addChild(this.gameLayer);
+
+        this.startUI();
     }
+
+    private startUI(): void {
+        // 加入开始UI组件
+        const startUI = new Start();
+        this.gameLayer.addChild(startUI);
+        this.views.push(startUI);
+
+        startUI.addEventListener(MainEvent.GameStart, this.gameStart, this);
+    }
+
+    /**游戏开始 */
+    private gameStart() {
+        const startUI = this.gameLayer.getChildAt(0);
+        if (startUI) {
+            startUI.removeEventListener(MainEvent.GameStart, this.gameStart, this);
+        }
+        this.gameLayer.removeChildAt(0);
+        this.views.shift();
+
+        // 运行游戏主逻辑    
+    } 
     /**
      * 根据name关键字创建一个Bitmap对象。name属性请参考resources/resource.json配置文件的内容。
      * Create a Bitmap object according to name keyword.As for the property of name please refer to the configuration file of resources/resource.json.
