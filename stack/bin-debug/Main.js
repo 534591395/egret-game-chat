@@ -74,10 +74,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 var Main = (function (_super) {
     __extends(Main, _super);
     function Main() {
-        var _this = _super !== null && _super.apply(this, arguments) || this;
-        /**场景堆栈*/
-        _this.views = [];
-        return _this;
+        return _super !== null && _super.apply(this, arguments) || this;
     }
     Main.prototype.createChildren = function () {
         _super.prototype.createChildren.call(this);
@@ -167,42 +164,41 @@ var Main = (function (_super) {
         var bgUI = new Bg();
         bgUI.x = Utiles.horizontalCenter(this.stage.stageWidth, bgUI.width);
         this.gameLayer.addChild(bgUI);
-        this.views.push(bgUI);
     };
     Main.prototype.startUI = function () {
         // 加入开始UI组件
         var startUI = new Start();
         startUI.x = Utiles.horizontalCenter(this.stage.stageWidth, startUI.width);
         this.gameLayer.addChild(startUI);
-        this.views.push(startUI);
         startUI.addEventListener(MainEvent.GameStart, this.gameStart, this);
+    };
+    /**游戏面板 */
+    Main.prototype.panelUI = function () {
+        var pannelUI = new Panel();
+        pannelUI.x = Utiles.horizontalCenter(this.stage.stageWidth, pannelUI.width);
+        this.gameLayer.addChild(pannelUI);
+        pannelUI.addEventListener(MainEvent.Down, this.down, this);
+    };
+    /**放下木头 */
+    Main.prototype.down = function () {
     };
     /* 蒙层*/
     Main.prototype.markUI = function () {
         var markUI = new Mark();
         markUI.x = Utiles.horizontalCenter(this.stage.stageWidth, markUI.width);
         this.gameLayer.addChild(markUI);
-        this.views.push(markUI);
     };
     /**游戏开始 */
     Main.prototype.gameStart = function () {
-        var startUI = this.gameLayer.getChildAt(0);
+        var startUI = this.gameLayer.getChildAt(2);
         if (startUI) {
             startUI.removeEventListener(MainEvent.GameStart, this.gameStart, this);
         }
-        this.gameLayer.removeChildAt(0);
-        this.views.shift();
+        this.gameLayer.removeChildAt(2);
+        this.gameLayer.removeChildAt(1);
+        // 显示游戏面板
+        this.panelUI();
         // 运行游戏主逻辑    
-    };
-    /**
-     * 根据name关键字创建一个Bitmap对象。name属性请参考resources/resource.json配置文件的内容。
-     * Create a Bitmap object according to name keyword.As for the property of name please refer to the configuration file of resources/resource.json.
-     */
-    Main.prototype.createBitmapByName = function (name) {
-        var result = new egret.Bitmap();
-        var texture = RES.getRes(name);
-        result.texture = texture;
-        return result;
     };
     return Main;
 }(eui.UILayer));

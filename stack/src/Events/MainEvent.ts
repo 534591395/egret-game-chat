@@ -5,6 +5,8 @@
 class MainEvent extends egret.Event {
     // 触发游戏开始时调用该事件类型
     public static GameStart:string = '游戏开始';
+    // 放木头
+    public static Down:string = '放木头';
 
     private _resName: string = ""; 
 

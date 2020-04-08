@@ -31,6 +31,8 @@ var MainEvent = (function (_super) {
     });
     // 触发游戏开始时调用该事件类型
     MainEvent.GameStart = '游戏开始';
+    // 放木头
+    MainEvent.Down = '放木头';
     return MainEvent;
 }(egret.Event));
 __reflect(MainEvent.prototype, "MainEvent");

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="Pannel" width="320" height="315" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
+	<e:Image width="100%" height="34" x="0" y="0" source="menu_png" anchorOffsetY="0"/>
+	<e:Image id="down" width="100%" height="65" x="0" y="246" source="stackthelog_png"/>
+	<e:Label text="得分:" x="14" y="46" size="13"/>
+	<e:Label id="score" text="0" x="50" y="46" size="13" textColor="0xef1010"/>
+	<e:Label text="等级:" x="104" y="46" size="13"/>
+	<e:Label id="grade" text="0" x="140" y="46" size="13" textColor="0xEF1010"/>
+	<e:Label text="连击:" x="205" y="46" size="13"/>
+	<e:Label id="lianji" text="0" x="241" y="46" size="13" textColor="0xEF1010"/>
+</e:Skin>

@@ -9,14 +9,15 @@
 		"libs/modules/promise/promise.js"
 	],
 	"game": [
+		"bin-debug/Events/MainEvent.js",
 		"bin-debug/AssetAdapter.js",
-		"bin-debug/LoadingUI.js",
 		"bin-debug/Main.js",
 		"bin-debug/Platform.js",
 		"bin-debug/ThemeAdapter.js",
-		"bin-debug/Events/MainEvent.js",
+		"bin-debug/LoadingUI.js",
 		"bin-debug/skins/Bg.js",
 		"bin-debug/skins/Mark.js",
+		"bin-debug/skins/Panel.js",
 		"bin-debug/skins/Start.js",
 		"bin-debug/Utils/Utils.js"
 	]

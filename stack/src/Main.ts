@@ -31,8 +31,6 @@ class Main extends eui.UILayer {
 
     // 游戏场景容器
     private gameLayer:egret.DisplayObjectContainer;
-    /**场景堆栈*/
-    private views: any[] = [];
 
     protected createChildren(): void {
         super.createChildren();
@@ -111,7 +109,6 @@ class Main extends eui.UILayer {
         bgUI.x = Utiles.horizontalCenter(this.stage.stageWidth, bgUI.width);
 
         this.gameLayer.addChild(bgUI);
-        this.views.push(bgUI);
     }
 
     private startUI(): void {
@@ -120,9 +117,23 @@ class Main extends eui.UILayer {
         startUI.x = Utiles.horizontalCenter(this.stage.stageWidth, startUI.width);
 
         this.gameLayer.addChild(startUI);
-        this.views.push(startUI);
 
         startUI.addEventListener(MainEvent.GameStart, this.gameStart, this);
+    }
+
+    /**游戏面板 */
+    private panelUI(): void {
+        const pannelUI = new Panel();
+        pannelUI.x = Utiles.horizontalCenter(this.stage.stageWidth, pannelUI.width);
+
+        this.gameLayer.addChild(pannelUI);
+
+        pannelUI.addEventListener(MainEvent.Down, this.down, this);
+    }
+    
+    /**放下木头 */
+    private down():void {
+
     }
 
     /* 蒙层*/
@@ -131,29 +142,22 @@ class Main extends eui.UILayer {
         markUI.x = Utiles.horizontalCenter(this.stage.stageWidth, markUI.width);
 
         this.gameLayer.addChild(markUI);
-        this.views.push(markUI);
     }
 
     /**游戏开始 */
     private gameStart() {
-        const startUI = this.gameLayer.getChildAt(0);
+        const startUI = this.gameLayer.getChildAt(2);
         if (startUI) {
             startUI.removeEventListener(MainEvent.GameStart, this.gameStart, this);
         }
-        this.gameLayer.removeChildAt(0);
-        this.views.shift();
+        this.gameLayer.removeChildAt(2);
+        this.gameLayer.removeChildAt(1);
+        
+        // 显示游戏面板
+        this.panelUI();
 
         // 运行游戏主逻辑    
     } 
-    /**
-     * 根据name关键字创建一个Bitmap对象。name属性请参考resources/resource.json配置文件的内容。
-     * Create a Bitmap object according to name keyword.As for the property of name please refer to the configuration file of resources/resource.json.
-     */
-    private createBitmapByName(name: string): egret.Bitmap {
-        let result = new egret.Bitmap();
-        let texture: egret.Texture = RES.getRes(name);
-        result.texture = texture;
-        return result;
-    }
+
 
 }
