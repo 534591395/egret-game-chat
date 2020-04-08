@@ -100,8 +100,18 @@ class Main extends eui.UILayer {
     protected createGameScene(): void {
         this.gameLayer = new egret.DisplayObjectContainer();
         this.addChild(this.gameLayer);
-
+        
+        this.bgUI();
+        this.markUI();
         this.startUI();
+    }
+
+    private bgUI(): void {
+        const bgUI = new Bg();
+        bgUI.x = Utiles.horizontalCenter(this.stage.stageWidth, bgUI.width);
+
+        this.gameLayer.addChild(bgUI);
+        this.views.push(bgUI);
     }
 
     private startUI(): void {
@@ -112,11 +122,16 @@ class Main extends eui.UILayer {
         this.gameLayer.addChild(startUI);
         this.views.push(startUI);
 
-        console.log(startUI.width)
-
         startUI.addEventListener(MainEvent.GameStart, this.gameStart, this);
+    }
 
-        console.log(this.stage.stageWidth)
+    /* 蒙层*/
+    private markUI(): void {
+        const markUI = new Mark();
+        markUI.x = Utiles.horizontalCenter(this.stage.stageWidth, markUI.width);
+
+        this.gameLayer.addChild(markUI);
+        this.views.push(markUI);
     }
 
     /**游戏开始 */

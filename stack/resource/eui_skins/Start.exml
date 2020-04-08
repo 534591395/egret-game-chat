@@ -3,8 +3,8 @@
 	<e:Group width="100%" height="100%" y="0" anchorOffsetX="0" anchorOffsetY="0" horizontalCenter="0">
 		<e:Label text="堆木头" y="32" textAlign="center" bold="true" fontFamily="helvetica, arial" horizontalCenter="0"/>
 		<e:Group width="100%" height="85" y="73" anchorOffsetY="0" anchorOffsetX="0" horizontalCenter="0">
-			<e:Label text="当木头移动到木头堆正上方时，按下按钮放木头，尽可能的对齐木头." y="6" size="13" anchorOffsetY="0" height="49" anchorOffsetX="0" width="244" lineSpacing="4" scaleX="1" scaleY="1" verticalAlign="middle" x="71"/>
-			<e:Image width="64" height="64" y="10.5" source="icon_png" scaleX="1" scaleY="1" x="0"/>
+			<e:Label text="当木头移动到木头堆正上方时，按下按钮放木头，尽可能的对齐木头." y="6" size="13" anchorOffsetY="0" height="49" anchorOffsetX="0" width="237" lineSpacing="4" scaleX="1" scaleY="1" verticalAlign="middle" x="79"/>
+			<e:Image width="64" height="64" y="10.5" source="icon_png" scaleX="1" scaleY="1" x="8"/>
 		</e:Group>
 		<e:Image id="btn" width="114" height="54" y="173" source="b_okay_png" touchEnabled="true" horizontalCenter="0" scaleX="1" scaleY="1"/>
 	</e:Group>

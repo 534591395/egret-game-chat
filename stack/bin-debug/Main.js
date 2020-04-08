@@ -159,7 +159,15 @@ var Main = (function (_super) {
     Main.prototype.createGameScene = function () {
         this.gameLayer = new egret.DisplayObjectContainer();
         this.addChild(this.gameLayer);
+        this.bgUI();
+        this.markUI();
         this.startUI();
+    };
+    Main.prototype.bgUI = function () {
+        var bgUI = new Bg();
+        bgUI.x = Utiles.horizontalCenter(this.stage.stageWidth, bgUI.width);
+        this.gameLayer.addChild(bgUI);
+        this.views.push(bgUI);
     };
     Main.prototype.startUI = function () {
         // 加入开始UI组件
@@ -167,9 +175,14 @@ var Main = (function (_super) {
         startUI.x = Utiles.horizontalCenter(this.stage.stageWidth, startUI.width);
         this.gameLayer.addChild(startUI);
         this.views.push(startUI);
-        console.log(startUI.width);
         startUI.addEventListener(MainEvent.GameStart, this.gameStart, this);
-        console.log(this.stage.stageWidth);
+    };
+    /* 蒙层*/
+    Main.prototype.markUI = function () {
+        var markUI = new Mark();
+        markUI.x = Utiles.horizontalCenter(this.stage.stageWidth, markUI.width);
+        this.gameLayer.addChild(markUI);
+        this.views.push(markUI);
     };
     /**游戏开始 */
     Main.prototype.gameStart = function () {
