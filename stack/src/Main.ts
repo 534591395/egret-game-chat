@@ -404,7 +404,7 @@ class Main extends eui.UILayer {
     /**添加一个可堆的木头 */
     private addStack() {
         /**一个轮次所需的堆木头次数 */
-        const roundMax = 3;
+        const roundMax = 7;
         // 堆叠的木头超过指定个数，移除底部木头，然后所有已堆叠的木头往下移动一些距离
         let differenceY = 0;
         if (this.sts > roundMax) {
