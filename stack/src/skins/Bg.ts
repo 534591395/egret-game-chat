@@ -1,4 +1,4 @@
-class Bg extends eui.Component  {
+class BgColor extends eui.Component  {
      
     public constructor() {
         super();

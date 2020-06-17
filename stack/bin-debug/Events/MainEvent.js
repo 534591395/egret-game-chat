@@ -33,6 +33,8 @@ var MainEvent = (function (_super) {
     MainEvent.GameStart = '游戏开始';
     // 放木头
     MainEvent.Down = '放木头';
+    // 游戏重新开始
+    MainEvent.Restartgame = '游戏重新开始';
     return MainEvent;
 }(egret.Event));
 __reflect(MainEvent.prototype, "MainEvent");

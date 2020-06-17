@@ -8,14 +8,14 @@ var __extends = this && this.__extends || function __extends(t, e) {
 for (var i in e) e.hasOwnProperty(i) && (t[i] = e[i]);
 r.prototype = e.prototype, t.prototype = new r();
 };
-var Marks = (function (_super) {
-    __extends(Marks, _super);
-    function Marks() {
+var Tip = (function (_super) {
+    __extends(Tip, _super);
+    function Tip() {
         var _this = _super.call(this) || this;
-        _this.skinName = "resource/eui_skins/Mark.exml";
-        _this.width = 320;
+        _this.skinName = "resource/eui_skins/Tip.exml";
+        _this.width = 100;
         return _this;
     }
-    return Marks;
+    return Tip;
 }(eui.Component));
-__reflect(Marks.prototype, "Marks");
+__reflect(Tip.prototype, "Tip");

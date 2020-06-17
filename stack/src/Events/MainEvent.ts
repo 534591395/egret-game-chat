@@ -8,6 +8,9 @@ class MainEvent extends egret.Event {
     // 放木头
     public static Down:string = '放木头';
 
+    // 游戏重新开始
+    public static Restartgame:string = '游戏重新开始';
+
     private _resName: string = ""; 
 
     public constructor(type:string, resName:string="", bubbles:boolean=false, cancelable:boolean=false) {

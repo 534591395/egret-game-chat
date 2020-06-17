@@ -1,4 +1,4 @@
-class Mark extends eui.Component  {
+class Marks extends eui.Component  {
      
     public constructor() {
         super();
