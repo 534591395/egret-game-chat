@@ -1,0 +1,105 @@
+{
+	"groups": [
+		{
+			"keys": "description_json,23_png,31_png,32_png,33_png,41_png,42_png,43_png,dropshadow_png,icon_png,stackthelog_png,11_png,12_png,13_png,21_png,22_png,b_no_png,b_okay_png,b_yes_png",
+			"name": "preload"
+		}
+	],
+	"resources": [
+		{
+			"name": "description_json",
+			"type": "json",
+			"url": "config/description.json"
+		},
+		{
+			"name": "23_png",
+			"type": "image",
+			"url": "assets/stack/23.png"
+		},
+		{
+			"name": "31_png",
+			"type": "image",
+			"url": "assets/stack/31.png"
+		},
+		{
+			"name": "32_png",
+			"type": "image",
+			"url": "assets/stack/32.png"
+		},
+		{
+			"name": "33_png",
+			"type": "image",
+			"url": "assets/stack/33.png"
+		},
+		{
+			"name": "41_png",
+			"type": "image",
+			"url": "assets/stack/41.png"
+		},
+		{
+			"name": "42_png",
+			"type": "image",
+			"url": "assets/stack/42.png"
+		},
+		{
+			"name": "43_png",
+			"type": "image",
+			"url": "assets/stack/43.png"
+		},
+		{
+			"name": "dropshadow_png",
+			"type": "image",
+			"url": "assets/stack/dropshadow.png"
+		},
+		{
+			"name": "icon_png",
+			"type": "image",
+			"url": "assets/stack/icon.png"
+		},
+		{
+			"name": "stackthelog_png",
+			"type": "image",
+			"url": "assets/stack/stackthelog.png"
+		},
+		{
+			"name": "11_png",
+			"type": "image",
+			"url": "assets/stack/11.png"
+		},
+		{
+			"name": "12_png",
+			"type": "image",
+			"url": "assets/stack/12.png"
+		},
+		{
+			"name": "13_png",
+			"type": "image",
+			"url": "assets/stack/13.png"
+		},
+		{
+			"name": "21_png",
+			"type": "image",
+			"url": "assets/stack/21.png"
+		},
+		{
+			"name": "22_png",
+			"type": "image",
+			"url": "assets/stack/22.png"
+		},
+		{
+			"name": "b_no_png",
+			"type": "image",
+			"url": "assets/stack/b_no.png"
+		},
+		{
+			"name": "b_okay_png",
+			"type": "image",
+			"url": "assets/stack/b_okay.png"
+		},
+		{
+			"name": "b_yes_png",
+			"type": "image",
+			"url": "assets/stack/b_yes.png"
+		}
+	]
+}

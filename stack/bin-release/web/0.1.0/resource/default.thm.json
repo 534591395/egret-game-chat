@@ -1,0 +1,13 @@
+{
+	"skins": {},
+	"autoGenerateExmlsList": true,
+	"exmls": [
+		"resource/eui_skins/Bg.exml",
+		"resource/eui_skins/Mark.exml",
+		"resource/eui_skins/Panel.exml",
+		"resource/eui_skins/Restart.exml",
+		"resource/eui_skins/Start.exml",
+		"resource/eui_skins/Tip.exml"
+	],
+	"path": "resource/default.thm.json"
+}
