@@ -79,7 +79,7 @@ var Main = (function (_super) {
         // sttype[i] 木头种类
         _this.sttype = [];
         _this.extraleft = [];
-        // 木头高度 
+        // 木头资源宽度
         _this.extraright = 10;
         _this.logh = 20;
         // 木头左右距离
@@ -189,6 +189,12 @@ var Main = (function (_super) {
         this.markUI();
         this.startUI();
     };
+    /* 蒙层*/
+    Main.prototype.markUI = function () {
+        var markUI = new Marks();
+        markUI.x = Utiles.horizontalCenter(this.stage.stageWidth, markUI.width);
+        this.gameLayer.addChild(markUI);
+    };
     Main.prototype.tipUI = function () {
         var _this = this;
         var tip = new Tip();
@@ -226,6 +232,7 @@ var Main = (function (_super) {
     };
     /**放下木头 */
     Main.prototype.down = function () {
+        // 如果游戏结束(this.gameisover == 1)或者当前正在放木头（this.dnd === 1）,禁止放下木头操作
         if (this.dnd === 1 || this.gameisover == 1) {
             return;
         }
@@ -258,7 +265,6 @@ var Main = (function (_super) {
         }
         // 分数计算- 取当前落下的木头长度乘以已经添加了木头数量的对数值（平滑减小数据大小）。
         var score = Math.floor(this.stwidth[this.sts] / 10 * Math.log(this.sts + 1));
-        var layer = this.scrollareaLayer.getChildByName('stp_' + this.sts);
         // 如果是完美放入，分数乘以两倍， 完美判断：木头长度必须大于0，放入的木头跟前面的木头宽度相差某个阈值
         if (this.stwidth[this.sts] > 0 && Math.abs(this.stwidth[this.sts] - this.stwidth[this.sts - 1]) < 3) {
             score *= 2;
@@ -268,6 +274,7 @@ var Main = (function (_super) {
         }
         this.stscore += score;
         this.panelUI.setScore(this.stscore);
+        var layer = this.scrollareaLayer.getChildByName('stp_' + this.sts);
         //裁剪木头
         this.cutaronk(layer, this.sttype[this.sts], this.stwidth[this.sts], hcf);
     };
@@ -276,11 +283,11 @@ var Main = (function (_super) {
         if (!layer) {
             return;
         }
-        var croriw = parseInt(layer.width);
         // 原先已存在容器 layer 的木头，该木头需做渐变效果和移除
         var childWoodOld = layer.getChildAt(0);
         var childWoodNew;
-        // 如果是完美放入，无需添加一个新的木头（使用原来的木头即可）
+        // 是all的话，完美放入，无需添加一个新的木头（使用原来的木头即可）
+        // 右
         if (hcf === 'right') {
             // 添加一个木头
             this.showaronk(layer, sttype, stwidth);
@@ -370,12 +377,6 @@ var Main = (function (_super) {
         shadow.y += this.sah - (this.sts + 1) * (this.logh - 4);
         this.scrollareaLayer.addChild(shadow);
     };
-    /* 蒙层*/
-    Main.prototype.markUI = function () {
-        var markUI = new Marks();
-        markUI.x = Utiles.horizontalCenter(this.stage.stageWidth, markUI.width);
-        this.gameLayer.addChild(markUI);
-    };
     /**游戏开始 */
     Main.prototype.gameStart = function () {
         var startUI = this.gameLayer.getChildAt(3);
@@ -394,25 +395,28 @@ var Main = (function (_super) {
         var parentLayer = new egret.DisplayObjectContainer();
         parentLayer.width = this.extraleft[sttype] + stwidth + this.extraright / 2;
         parentLayer.height = this.logh;
+        // 左边木头
+        var leftWood = Utiles.createBitmapByName(sttype + '1_png');
+        parentLayer.addChild(leftWood);
         // 中间木头
         var wood = Utiles.createBitmapByName(sttype + '2_png');
         wood.width = stwidth;
         wood.height = this.logh;
         wood.x = this.extraleft[sttype];
+        //wood.x = leftWood.width;
         parentLayer.addChild(wood);
-        // 左边木头
-        var leftWood = Utiles.createBitmapByName(sttype + '1_png');
-        parentLayer.addChild(leftWood);
         // 右边木头
         var rightWood = Utiles.createBitmapByName(sttype + '3_png');
-        rightWood.x = this.extraleft[sttype] + stwidth - this.extraright / 2;
+        // 木头距离：wood.x + stwidth （中间木头距离左边的距离+宽度），3_png素材缘故，要减去相应的值
+        rightWood.x = wood.x + stwidth - this.extraright / 2;
+        //rightWood.x = wood.x + wood.width;
         parentLayer.addChild(rightWood);
         layer.addChild(parentLayer);
     };
     /**添加一个可堆的木头 */
     Main.prototype.addStack = function () {
         /**一个轮次所需的堆木头次数 */
-        var roundMax = 3;
+        var roundMax = 7;
         // 堆叠的木头超过指定个数，移除底部木头，然后所有已堆叠的木头往下移动一些距离
         var differenceY = 0;
         if (this.sts > roundMax) {
@@ -439,7 +443,7 @@ var Main = (function (_super) {
         this.stwidth[this.sts] = this.stwidth[this.sts - 1];
         this.stmargin[this.sts] = 0;
         // Math.log:  取对数之后不会改变数据的性质和相关关系，数据更加平稳，压缩了尺度。
-        this.stdir = Math.log(this.sts + 1) * 2;
+        this.stdir = Math.log(this.sts + 1);
         this.sttype[this.sts] = Math.floor(Math.random() * 4) + 1;
         if (Math.random() > 0.5) {
             this.stdir *= -1;
@@ -453,6 +457,7 @@ var Main = (function (_super) {
         // 左右移动的木头（待添加）y轴要减去差值。
         layer.y = this.sah - (this.sts + 2) * (this.logh - 4) - differenceY;
         layer.x = this.stmargin[this.sts] - this.extraleft[this.sttype[this.sts]];
+        //layer.x = this.stmargin[this.sts];
         this.scrollareaLayer.addChild(layer);
         //this.zIndexNum --;
         //layer.zIndex = this.zIndexNum;
@@ -481,6 +486,7 @@ var Main = (function (_super) {
             var wood = this.scrollareaLayer.getChildByName('stp_' + this.sts);
             if (wood) {
                 wood.x = this.stmargin[this.sts] - this.extraleft[this.sttype[this.sts]];
+                //wood.x = this.stmargin[this.sts];
             }
         }
         this.time = now;
