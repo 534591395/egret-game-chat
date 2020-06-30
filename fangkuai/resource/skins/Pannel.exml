@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="a" width="400" height="500" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
+	<e:Group id="scrollBox" width="200" height="400" x="11" y="9"/>
+	<e:Button id="leftBtn" label="左" x="11" y="430" anchorOffsetX="0" width="66" anchorOffsetY="0" height="48" touchEnabled="true"/>
+	<e:Button id="rotateShapeBtn" label="翻转" x="145" y="430" width="66" height="48" touchEnabled="true"/>
+	<e:Button id="rightBtn" label="右" x="269" y="430" width="66" height="48" touchEnabled="true"/>
+	<e:Group id="nextShapeBox" width="140" height="130" x="220" y="9" anchorOffsetX="0" anchorOffsetY="0"/>
+	<e:Rect width="176" height="83" x="220" y="209" anchorOffsetX="0" anchorOffsetY="0" fillColor="0xffffff"/>
+	<e:Label id="scoreLabel" text="0分" x="302" y="237.5" textColor="0x000000" size="24" anchorOffsetX="0" width="88"/>
+	<e:Label text="分数：" x="225" y="237.5" textColor="0x000000" size="24"/>
+</e:Skin>
