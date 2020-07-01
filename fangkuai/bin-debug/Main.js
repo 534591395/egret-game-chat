@@ -80,7 +80,7 @@ var Main = (function (_super) {
         /**图形索引 */
         _this.index = 0;
         _this.timeNum = 0;
-        _this.timeMax = 180;
+        _this.timeMax = 300;
         _this.time = 0;
         return _this;
     }
@@ -165,7 +165,7 @@ var Main = (function (_super) {
         this.pannelUI = new Pannel();
         //this.pannelUI.width = this.stage.stageWidth;
         this.addChild(this.pannelUI);
-        this.restartUI = new Stop();
+        this.restartUI = new Restart();
         this.addChild(this.restartUI);
         // 图形有7种，每种由四个格子组成，对应的格子位置配置
         this.shapeList = [
@@ -213,16 +213,20 @@ var Main = (function (_super) {
         }
         var data = this.nowShape.data;
         var temp = [];
-        this.clearShape(this.pannelUI.scrollBox, this.nowShape.index);
         for (var i = 0; i < data.length; i++) {
             temp.push([data[i][1], -data[i][0]]);
         }
         this.nowShape.data = temp;
-        this.drawShape();
         var x = this.checkXBoundary();
         if (Math.abs(x) === 1) {
             // 如果 this.checkXBoundary() === -1 ，表示左边超出了，相反值右边超出了；假如左边超出，就往右移动单位位置
             this.translateXShape(-x);
+        }
+        else {
+            if (this.checkXBoundary() === 0) {
+                this.clearShape(this.pannelUI.scrollBox, this.nowShape.index);
+                this.drawShape();
+            }
         }
     };
     /**
@@ -384,7 +388,7 @@ var Main = (function (_super) {
             if ((typeof this.grids[yNum + 1] !== 'undefined') && this.grids[yNum + 1][xNum]) {
                 // 如果此时 图形 在容器顶部（此时图形为刚刚生成的图形），游戏结束
                 if (yNum === -1) {
-                    this.stop();
+                    this.restart();
                 }
                 bool = false;
                 break;
@@ -418,8 +422,8 @@ var Main = (function (_super) {
                     break;
                 }
                 else 
-                // 碰到已经堆积好的方块们;  num === -1 表示左边方向；num === 1 表示右边方向； this.grids[yNum][xNum - 1] === true 表示这个小格子已经被占用了（再往左右移动就碰到已经堆积好的方块们）
-                if ((typeof num === 'undefined' && xNum > this.grids[yNum][xNum]) ||
+                // 碰到已经堆积好的方块们;  num === -1 表示左边方向；num === 1 表示右边方向； this.grids[yNum][xNum] === true 表示这个小格子已经被占用了（再往左右移动就碰到已经堆积好的方块们）
+                if ((typeof num === 'undefined' && this.grids[yNum][xNum]) ||
                     (num === -1 && this.grids[yNum][xNum - 1]) ||
                     (num === 1 && this.grids[yNum][xNum + 1])) {
                     numMark = 2;
@@ -446,7 +450,7 @@ var Main = (function (_super) {
         }
         catch (error) {
             console.log(error);
-            this.stop();
+            this.restart();
         }
         for (i = 0; i < this.grids.length; i++) {
             var mark = true;
@@ -480,7 +484,7 @@ var Main = (function (_super) {
             }
         }
     };
-    Main.prototype.stop = function () {
+    Main.prototype.restart = function () {
         console.log('游戏结束');
         this.isParse = true;
         egret.stopTick(this.translateYShape, this);

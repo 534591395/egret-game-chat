@@ -30,7 +30,7 @@
 		"resource/eui_skins/VScrollBarSkin.exml",
 		"resource/eui_skins/VSliderSkin.exml",
 		"resource/skins/Pannel.exml",
-		"resource/skins/Stop.exml"
+		"resource/skins/Restart.exml"
 	],
 	"path": "resource/default.thm.json"
 }

@@ -8,15 +8,15 @@ var __extends = this && this.__extends || function __extends(t, e) {
 for (var i in e) e.hasOwnProperty(i) && (t[i] = e[i]);
 r.prototype = e.prototype, t.prototype = new r();
 };
-var Stop = (function (_super) {
-    __extends(Stop, _super);
-    function Stop() {
+var Restart = (function (_super) {
+    __extends(Restart, _super);
+    function Restart() {
         var _this = _super.call(this) || this;
-        _this.skinName = "resource/skins/Stop.exml";
+        _this.skinName = "resource/skins/Restart.exml";
         _this.event();
         return _this;
     }
-    Stop.prototype.event = function () {
+    Restart.prototype.event = function () {
         var _this = this;
         var RestartEvent = new MainEvent(MainEvent.Restart);
         /**点击按钮'左边' */
@@ -24,6 +24,6 @@ var Stop = (function (_super) {
             _this.dispatchEvent(RestartEvent);
         }, this);
     };
-    return Stop;
+    return Restart;
 }(eui.Component));
-__reflect(Stop.prototype, "Stop");
+__reflect(Restart.prototype, "Restart");

@@ -1,9 +1,9 @@
-class Stop extends eui.Component  {
+class Restart extends eui.Component  {
     public restart: eui.Button;
 
     public constructor() {
         super();
-        this.skinName = "resource/skins/Stop.exml";
+        this.skinName = "resource/skins/Restart.exml";
 
         this.event();
     }

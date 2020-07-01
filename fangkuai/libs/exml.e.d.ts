@@ -52,3 +52,4 @@ declare module skins{
 }
 declare class a extends eui.Skin{
 }
+

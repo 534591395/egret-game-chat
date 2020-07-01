@@ -6,7 +6,7 @@ class Pannel extends eui.Component  {
     public rightBtn: eui.Button;
     public scoreLabel: eui.Label;
 
-    private _score:number = 0;
+    private _score: number = 0;
     
 
     public constructor() {

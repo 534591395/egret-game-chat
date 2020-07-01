@@ -51,11 +51,11 @@ class Main extends eui.UILayer {
     private poolList: any[];
 
     private timeNum: number = 0;
-    private timeMax = 180;
+    private timeMax = 300;
     private time = 0;
     /**游戏暂停标记 */
     private isParse: boolean;
-    private restartUI: Stop;
+    private restartUI: Restart;
 
     /**分数 */
     private score: number;
@@ -129,7 +129,7 @@ class Main extends eui.UILayer {
         //this.pannelUI.width = this.stage.stageWidth;
         this.addChild(this.pannelUI);
 
-        this.restartUI = new Stop();
+        this.restartUI = new Restart();
         this.addChild(this.restartUI);
 
         // 图形有7种，每种由四个格子组成，对应的格子位置配置
@@ -185,17 +185,22 @@ class Main extends eui.UILayer {
         }
         const data = this.nowShape.data;
         const temp = [];
-        this.clearShape(this.pannelUI.scrollBox, this.nowShape.index);
+        
         for (let i = 0; i < data.length; i++) {
             temp.push([data[i][1], -data[i][0] ]);
         }
         this.nowShape.data = temp;
-        this.drawShape();
+        
 
         const x = this.checkXBoundary(); 
-        if ( Math.abs(x) === 1 ) {
+        if ( Math.abs(x) === 1) {
             // 如果 this.checkXBoundary() === -1 ，表示左边超出了，相反值右边超出了；假如左边超出，就往右移动单位位置
             this.translateXShape(-x);
+        } else {
+            if (this.checkXBoundary() === 0) {
+                this.clearShape(this.pannelUI.scrollBox, this.nowShape.index);
+                this.drawShape();
+            }
         }
     }
     
@@ -348,7 +353,7 @@ class Main extends eui.UILayer {
                 }
             }
         } 
-
+  
         this.time = now;
         return false;
     }
@@ -369,7 +374,7 @@ class Main extends eui.UILayer {
             if ( (typeof this.grids[yNum + 1] !== 'undefined') && this.grids[yNum + 1][xNum]) {
                 // 如果此时 图形 在容器顶部（此时图形为刚刚生成的图形），游戏结束
                 if (yNum === -1) {
-                    this.stop();
+                    this.restart();
                 }
                 bool = false;
                 break;
@@ -389,11 +394,10 @@ class Main extends eui.UILayer {
             for (let i = 0; i < arr.length; i++) {
                 const xNum = arr[i][0] / Main.Gridsize;
                 const yNum = arr[i][1] /  Main.Gridsize;
-
                 // 左边超出了
                 if ( 
                     (typeof num === 'undefined' && xNum < 0) || 
-                    num === -1 && xNum === 0
+                    num === -1 && xNum === 0 
                 ) {
                     numMark = -1;
                     break;
@@ -406,9 +410,9 @@ class Main extends eui.UILayer {
                      numMark = 1;
                      break;
                  } else
-                 // 碰到已经堆积好的方块们;  num === -1 表示左边方向；num === 1 表示右边方向； this.grids[yNum][xNum - 1] === true 表示这个小格子已经被占用了（再往左右移动就碰到已经堆积好的方块们）
+                 // 碰到已经堆积好的方块们;  num === -1 表示左边方向；num === 1 表示右边方向； this.grids[yNum][xNum] === true 表示这个小格子已经被占用了（再往左右移动就碰到已经堆积好的方块们）
                  if (
-                     (typeof num === 'undefined' && xNum > this.grids[yNum][xNum]) ||
+                     (typeof num === 'undefined' && this.grids[yNum][xNum]) ||
                      (num === -1 && this.grids[yNum][xNum - 1]) ||
                      (num === 1 && this.grids[yNum][xNum + 1])
                  ) {
@@ -421,7 +425,7 @@ class Main extends eui.UILayer {
         }
         return numMark;
     }
-    
+      
     // 两个形状相碰后，留有空隙--停止往下, 销毁。 满行了，那么我们就要清空这一整行的小方块们，同时要将占用的格子标记设置为true
     private drawWall():void {
         const arr = this.transitionCoordinate(this.nowShape.data, this.nowShape.x, this.nowShape.y);
@@ -435,9 +439,9 @@ class Main extends eui.UILayer {
             }
         } catch (error) {
             console.log(error);
-            this.stop();
+            this.restart();
         }
-        
+          
         for (i = 0; i < this.grids.length; i++) {
             let mark = true;
             // 循环某个行，该行上的所有小格子都被占用，那么就更新分数 
@@ -472,7 +476,7 @@ class Main extends eui.UILayer {
         }
     }
 
-    private stop(): void {
+    private restart(): void {
         console.log('游戏结束')
         this.isParse = true;
         egret.stopTick(this.translateYShape, this);
