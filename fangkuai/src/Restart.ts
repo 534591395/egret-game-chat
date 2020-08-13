@@ -10,9 +10,9 @@ class Restart extends eui.Component  {
 
     private event() {
         const RestartEvent:MainEvent = new MainEvent(MainEvent.Restart);
-        /**点击按钮'左边' */
+        /**点击按钮 `再来一局` */
         this.restart.addEventListener(egret.TouchEvent.TOUCH_TAP, () => {
             this.dispatchEvent(RestartEvent);
         }, this);
-    }
+    }  
 }

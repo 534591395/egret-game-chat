@@ -1,0 +1,10 @@
+{
+	"skins": {},
+	"autoGenerateExmlsList": true,
+	"exmls": [
+		"resource/skins/Index.exml",
+		"resource/skins/Pannel.exml",
+		"resource/skins/Restart.exml"
+	],
+	"path": "resource/default.thm.json"
+}

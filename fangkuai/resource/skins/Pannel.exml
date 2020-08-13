@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<e:Skin class="a" width="400" height="500" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
+<e:Skin width="400" height="500" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
 	<e:Group id="scrollBox" width="200" height="400" x="11" y="9"/>
 	<e:Button id="leftBtn" label="左" x="11" y="430" anchorOffsetX="0" width="66" anchorOffsetY="0" height="48" touchEnabled="true"/>
 	<e:Button id="rotateShapeBtn" label="翻转" x="145" y="430" width="66" height="48" touchEnabled="true"/>

@@ -54,7 +54,7 @@ class Main extends eui.UILayer {
     private timeMax = 300;
     private time = 0;
     /**游戏暂停标记 */
-    private isParse: boolean;
+    private isPause: boolean;
     private restartUI: Restart;
 
     /**分数 */
@@ -135,6 +135,8 @@ class Main extends eui.UILayer {
         // 图形有7种，每种由四个格子组成，对应的格子位置配置
         this.shapeList = [
             [[0, -1], [-1, 1], [0, 0], [0, 1]], 
+            //[[1,0],[1,1],[1,2],[0,2]],
+            //[[0,0],[0,1],[0,2],[-1,2]],
             [[0, -1], [1, 1], [0, 0], [0, 1]], 
             [[0, 0], [-1, 0], [0, 1], [0, -1]], 
             [[-1, -1], [0, -1], [0, 0], [1, 0]], 
@@ -159,12 +161,12 @@ class Main extends eui.UILayer {
         this.clearShape(this.pannelUI.scrollBox);
         this.clearNextShape();
 
-        this.isParse = false;
+        this.isPause = false;
         this.nextShapeIndex = this.index = 0;
         this.createMatrix();
         this.createNewShape();
     }
-
+ 
     private translateAction(event: MainEvent): void {
         if (event.type === '左移') {
             this.translateXShape(-1);
@@ -172,7 +174,7 @@ class Main extends eui.UILayer {
         if (event.type === '右移') {
             this.translateXShape(1);
         }
-    }
+    } 
 
     /**
      * 图形翻转
@@ -235,7 +237,7 @@ class Main extends eui.UILayer {
     
     // 创建矩阵，将scroll界面分成多个格子
     private createMatrix():void {
-        // grids[i] 纵  grids[i][j] 横
+        // grids[i] Y轴  grids[i][j] X轴
         this.grids = <any>[];
         for (let i = 0; i < this.pannelUI.scrollBox.height / Main.Gridsize; i++) {
             this.grids[i] = <any>[];
@@ -256,7 +258,7 @@ class Main extends eui.UILayer {
             data: JSON.parse(JSON.stringify(this.shapeList[this.nextShapeIndex]))
         };
         this.index ++;
-        // 随机赋值下一个图形索引
+        // 随机赋值下一个方块形状索引
         this.nextShapeIndex = Math.floor(Math.random() * this.shapeList.length);
         // 将下一个图形添加到预览容器中
         const nextShape = {
@@ -273,6 +275,7 @@ class Main extends eui.UILayer {
     
     /**清除预览容器的图形 */
     private clearNextShape():void {
+        // 从格子索引0清除
         this.clearShape(this.pannelUI.nextShapeBox, 0);
     }
 
@@ -339,7 +342,7 @@ class Main extends eui.UILayer {
         this.timeNum += pass;
         if (this.timeNum > this.timeMax) {
             this.timeNum = 0;
-            if (!this.isParse) {
+            if (!this.isPause) {
                 const checkedBool = this.checkYBoundary();
                 if (checkedBool) {
                     this.clearShape(this.pannelUI.scrollBox, this.nowShape.index);
@@ -365,7 +368,7 @@ class Main extends eui.UILayer {
         for (let i = 0; i < arr.length; i++) {
             const xNum = arr[i][0] / Main.Gridsize;
             const yNum = arr[i][1] /  Main.Gridsize;
-            // 如果当前图形有个格子的Y轴已经在最高出（y轴超出了），检测不通过
+            // 如果当前图形有个格子的Y轴已经在最低处，检测不通过
             if (yNum === (this.grids.length - 1)) {
                 bool = false;
                 break;
@@ -443,6 +446,7 @@ class Main extends eui.UILayer {
         }
           
         for (i = 0; i < this.grids.length; i++) {
+            // 是否满格
             let mark = true;
             // 循环某个行，该行上的所有小格子都被占用，那么就更新分数 
             for (let k = 0; k < this.grids[i].length; k++) {
@@ -452,7 +456,6 @@ class Main extends eui.UILayer {
                 }
             }
             if (mark) {
-                // ?
                 this.changeScore();
                 for (let j = i; j > 0; j--) {
                     for (let h = 0; h < this.grids[i].length; h++) {
@@ -478,7 +481,7 @@ class Main extends eui.UILayer {
 
     private restart(): void {
         console.log('游戏结束')
-        this.isParse = true;
+        this.isPause = true;
         egret.stopTick(this.translateYShape, this);
         this.addChild(this.restartUI);
     }

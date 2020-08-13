@@ -170,6 +170,8 @@ var Main = (function (_super) {
         // 图形有7种，每种由四个格子组成，对应的格子位置配置
         this.shapeList = [
             [[0, -1], [-1, 1], [0, 0], [0, 1]],
+            //[[1,0],[1,1],[1,2],[0,2]],
+            //[[0,0],[0,1],[0,2],[-1,2]],
             [[0, -1], [1, 1], [0, 0], [0, 1]],
             [[0, 0], [-1, 0], [0, 1], [0, -1]],
             [[-1, -1], [0, -1], [0, 0], [1, 0]],
@@ -189,7 +191,7 @@ var Main = (function (_super) {
         this.removeChild(this.restartUI);
         this.clearShape(this.pannelUI.scrollBox);
         this.clearNextShape();
-        this.isParse = false;
+        this.isPause = false;
         this.nextShapeIndex = this.index = 0;
         this.createMatrix();
         this.createNewShape();
@@ -258,7 +260,7 @@ var Main = (function (_super) {
     };
     // 创建矩阵，将scroll界面分成多个格子
     Main.prototype.createMatrix = function () {
-        // grids[i] 纵  grids[i][j] 横
+        // grids[i] Y轴  grids[i][j] X轴
         this.grids = [];
         for (var i = 0; i < this.pannelUI.scrollBox.height / Main.Gridsize; i++) {
             this.grids[i] = [];
@@ -278,7 +280,7 @@ var Main = (function (_super) {
             data: JSON.parse(JSON.stringify(this.shapeList[this.nextShapeIndex]))
         };
         this.index++;
-        // 随机赋值下一个图形索引
+        // 随机赋值下一个方块形状索引
         this.nextShapeIndex = Math.floor(Math.random() * this.shapeList.length);
         // 将下一个图形添加到预览容器中
         var nextShape = {
@@ -293,6 +295,7 @@ var Main = (function (_super) {
     };
     /**清除预览容器的图形 */
     Main.prototype.clearNextShape = function () {
+        // 从格子索引0清除
         this.clearShape(this.pannelUI.nextShapeBox, 0);
     };
     /**清除图形显示容器的当前图形 */
@@ -354,7 +357,7 @@ var Main = (function (_super) {
         this.timeNum += pass;
         if (this.timeNum > this.timeMax) {
             this.timeNum = 0;
-            if (!this.isParse) {
+            if (!this.isPause) {
                 var checkedBool = this.checkYBoundary();
                 if (checkedBool) {
                     this.clearShape(this.pannelUI.scrollBox, this.nowShape.index);
@@ -379,7 +382,7 @@ var Main = (function (_super) {
         for (var i = 0; i < arr.length; i++) {
             var xNum = arr[i][0] / Main.Gridsize;
             var yNum = arr[i][1] / Main.Gridsize;
-            // 如果当前图形有个格子的Y轴已经在最高出（y轴超出了），检测不通过
+            // 如果当前图形有个格子的Y轴已经在最低处，检测不通过
             if (yNum === (this.grids.length - 1)) {
                 bool = false;
                 break;
@@ -453,6 +456,7 @@ var Main = (function (_super) {
             this.restart();
         }
         for (i = 0; i < this.grids.length; i++) {
+            // 是否满格
             var mark = true;
             // 循环某个行，该行上的所有小格子都被占用，那么就更新分数 
             for (var k = 0; k < this.grids[i].length; k++) {
@@ -462,7 +466,6 @@ var Main = (function (_super) {
                 }
             }
             if (mark) {
-                // ?
                 this.changeScore();
                 for (var j = i; j > 0; j--) {
                     for (var h = 0; h < this.grids[i].length; h++) {
@@ -486,7 +489,7 @@ var Main = (function (_super) {
     };
     Main.prototype.restart = function () {
         console.log('游戏结束');
-        this.isParse = true;
+        this.isPause = true;
         egret.stopTick(this.translateYShape, this);
         this.addChild(this.restartUI);
     };

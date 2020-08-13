@@ -19,7 +19,7 @@ var Restart = (function (_super) {
     Restart.prototype.event = function () {
         var _this = this;
         var RestartEvent = new MainEvent(MainEvent.Restart);
-        /**点击按钮'左边' */
+        /**点击按钮 `再来一局` */
         this.restart.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
             _this.dispatchEvent(RestartEvent);
         }, this);
