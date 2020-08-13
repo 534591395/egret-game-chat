@@ -1,0 +1,36 @@
+{
+	"groups": [
+		{
+			"keys": "description_json,cs_jmp_bg_jpg,title_jmp_jpg,imgMerger,paopao_json",
+			"name": "preload"
+		}
+	],
+	"resources": [
+		{
+			"url": "config/description.json",
+			"type": "json",
+			"name": "description_json"
+		},
+		{
+			"url": "assets/img/cs_jmp_bg.jpg",
+			"type": "image",
+			"name": "cs_jmp_bg_jpg"
+		},
+		{
+			"url": "assets/img/title_jmp.jpg",
+			"type": "image",
+			"name": "title_jmp_jpg"
+		},
+		{
+			"url": "assets/img/imgMerger.json",
+			"type": "sheet",
+			"name": "imgMerger",
+			"subkeys": "bird_1,bird_2,bird_3,bird_4,bird_5,bird_6,btn_restart,btn_start,clock,cloud_blue,cloud_bottom_1,cloud_bottom_2,cloud_green,cloud_purple,cloud_yellow,countdown_progress_bar,countdown_progress_bar_bg,distance_icon,gesture,left_bar,number_blue_0,number_blue_1,number_blue_2,number_blue_3,number_blue_4,number_blue_5,number_blue_6,number_blue_7,number_blue_8,number_blue_9,number_distance_0,number_distance_1,number_distance_2,number_distance_3,number_distance_4,number_distance_5,number_distance_6,number_distance_7,number_distance_8,number_distance_9,number_score_0,number_score_1,number_score_2,number_score_3,number_score_4,number_score_5,number_score_6,number_score_7,number_score_8,number_score_9,number_white_0,number_white_1,number_white_2,number_white_3,number_white_4,number_white_5,number_white_6,number_white_7,number_white_8,number_white_9,number_yellow_0,number_yellow_1,number_yellow_2,number_yellow_3,number_yellow_4,number_yellow_5,number_yellow_6,number_yellow_7,number_yellow_8,number_yellow_9,ok,particle_bg_blue,particle_bg_green,particle_bg_purple,particle_bg_yellow,particle_sm_blue_1,particle_sm_blue_2,particle_sm_blue_3,particle_sm_green_1,particle_sm_green_2,particle_sm_green_3,particle_sm_purple_1,particle_sm_purple_2,particle_sm_purple_3,particle_sm_yellow_1,particle_sm_yellow_2,particle_sm_yellow_3,person_1,person_2,person_3,person_4,right_bar,score_progress_bar,score_progress_bar_bg,tip_addtime,tip_chaojitiao,tip_doublehit_2,tip_doublehit_3,tip_doublehit_4,tip_fkms_a,tip_fkms_b,tip_gameover,tip_help_arrows_1,tip_help_arrows_2,tip_help_hua,tip_help_score,tip_modal,tip_record,tip_score_icon,tip_timeout"
+		},
+		{
+			"name": "paopao_json",
+			"type": "json",
+			"url": "assets/paopao.json"
+		}
+	]
+}
