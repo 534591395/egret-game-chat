@@ -5,6 +5,8 @@
 class Pannels extends eui.Component  {
     /**人物 */
     public personBox: eui.Group;
+    /**背景图片容器 */
+    public bgBox: eui.Group;
     /** 背景图片 */
     public bg: eui.Image;
     /**底部云层 */
@@ -25,7 +27,7 @@ class Pannels extends eui.Component  {
     /**跳的距离-第三位 */
     public numberDistanceThree: eui.Image;
     /**跳的距离-第四位 */
-    public numberDistancFour: eui.Image;
+    public numberDistanceFour: eui.Image;
 
     /** 连击数进度条 */
     public scoreProgressBar: eui.Image;
@@ -59,6 +61,9 @@ class Pannels extends eui.Component  {
         super();
         this.skinName = "resource/skins/Pannel.exml";
         this.event();
+        // 给背景容器添加遮罩
+        var rect:egret.Rectangle = new egret.Rectangle(0,0,320,480); 
+        this.bgBox.mask = rect;
     }
 
     private event() {
@@ -130,7 +135,7 @@ class Pannels extends eui.Component  {
         this.numberDistanceOne.source = 'number_distance_'+ str[0];
         this.numberDistanceTwo.source = 'number_distance_'+ str[1];
         this.numberDistanceThree.source = 'number_distance_'+ str[2];
-        this.numberDistancFour.source = 'number_distance_'+ str[3];
+        this.numberDistanceFour.source = 'number_distance_'+ str[3];
     }
 
 
@@ -139,7 +144,7 @@ class Pannels extends eui.Component  {
     }
     /**设置背景图片的y轴 */
     public set bgY(number: number) {
-        this.bg.y -= number;
+        this.bg.y = number;
         this._bgY = this.bg.y;
         
     }

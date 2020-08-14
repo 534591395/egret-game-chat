@@ -29,6 +29,9 @@ var Pannels = (function (_super) {
         _this.cloudBottomBgYMax = 416;
         _this.skinName = "resource/skins/Pannel.exml";
         _this.event();
+        // 给背景容器添加遮罩
+        var rect = new egret.Rectangle(0, 0, 320, 480);
+        _this.bgBox.mask = rect;
         return _this;
     }
     Pannels.prototype.event = function () {
@@ -101,7 +104,7 @@ var Pannels = (function (_super) {
             this.numberDistanceOne.source = 'number_distance_' + str[0];
             this.numberDistanceTwo.source = 'number_distance_' + str[1];
             this.numberDistanceThree.source = 'number_distance_' + str[2];
-            this.numberDistancFour.source = 'number_distance_' + str[3];
+            this.numberDistanceFour.source = 'number_distance_' + str[3];
         },
         enumerable: true,
         configurable: true
@@ -112,7 +115,7 @@ var Pannels = (function (_super) {
         },
         /**设置背景图片的y轴 */
         set: function (number) {
-            this.bg.y -= number;
+            this.bg.y = number;
             this._bgY = this.bg.y;
         },
         enumerable: true,
