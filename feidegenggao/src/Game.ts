@@ -57,7 +57,8 @@ class Game extends eui.UILayer {
     /**往上跳距离：累加 */
     private numberDistance: number = 0;
 
-    private cloudBottomVisable = true;
+    private cloudBottomVisable: boolean = true;
+    private animationNum: number = 0;
 
     constructor() {
         super();
@@ -94,6 +95,10 @@ class Game extends eui.UILayer {
         this.stage.addEventListener(egret.TouchEvent.TOUCH_BEGIN, this.touchStart, this);
         this.stage.addEventListener(egret.TouchEvent.TOUCH_MOVE, this.touchMove, this);
         this.stage.addEventListener(egret.TouchEvent.TOUCH_END, this.touchEnd, this);
+
+        this.timer = new egret.Timer(1000, this.times);
+        this.timer.addEventListener(egret.TimerEvent.TIMER,this.timerFunc,this);
+        this.timer.addEventListener(egret.TimerEvent.TIMER_COMPLETE, this.timerComFunc, this);
     }
 
     private touchStart(evt:egret.TouchEvent) {
@@ -138,6 +143,7 @@ class Game extends eui.UILayer {
 
     /**停止 */
     public stop(): void {
+        this.timer.stop();
         this.pannelUI.personBox.removeChild(this.nowPerson);
         this.addChild(this.restartUI);
         this.isPause = true;
@@ -163,6 +169,7 @@ class Game extends eui.UILayer {
         this.bp_fi = 0;
         this.pcfi = 0;
         this.cloudBottomVisable = true;
+        this.animationNum = 0;
     }
 
     private onEnterFrame(timeStamp:number):boolean {
@@ -173,6 +180,11 @@ class Game extends eui.UILayer {
         if (this.timeNum > this.timeMax) {
             this.timeNum = 0;
             if (!this.isPause) {
+                if (this.animationNum <= 40) {
+                    this.animationNum += 0.1;
+                } else {
+                    this.animationNum = 0;
+                }
                 this.wj = 100 - this.my;
                 if (this.wj < 1) {
                     this.wj = 0;
@@ -211,9 +223,7 @@ class Game extends eui.UILayer {
     private timerStart(): void {
         this.isPause = false;
         this.pannelUI.countNumber = this.times;
-        this.timer = new egret.Timer(1000, this.times);
-        this.timer.addEventListener(egret.TimerEvent.TIMER,this.timerFunc,this);
-        this.timer.addEventListener(egret.TimerEvent.TIMER_COMPLETE, this.timerComFunc, this);
+        this.timer.reset();
         this.timer.start();
     }
     
@@ -348,19 +358,27 @@ class Game extends eui.UILayer {
 
     }
 
+
     /**更新云朵，小人踩到云朵时才触发更新，每次踩到后云朵下降40（先写死） */
     private updateClouds():void {
         const layer = this.pannelUI.cloudBox;
         for (let i = 0; i < layer.numChildren; i++) {
             const cloud = layer.getChildAt(i);
             if (cloud) {
-                cloud.y += 40;
-                if (cloud.y > this.pannelUI.cloudBox.height) {
-                    this.clearCloud(layer, i);
-                    this.nowCloudNumber --;
-                }
+                egret.Tween.get( cloud ).to( {y: cloud.y + 40}, 100, egret.Ease.sineIn ).call(() => {
+                    if (cloud.y > this.pannelUI.cloudBox.height) {
+                        this.clearCloud(layer, i);
+                        this.nowCloudNumber --;
+                        this.repaiClouds();
+                    }
+                });
+                //cloud.y += 40;
             }
         }
+    }
+    
+    /**缺失的云朵从顶部补回来 */
+    private repaiClouds() {
         // 缺失的云朵从顶部补回来，云朵下降速度默认写死：40
         for (let j = 0; j < (this.cloudMaxNumber - this.nowCloudNumber); j++) {
             let x = 36 * (Math.floor(7 * Math.random()));

@@ -50,6 +50,7 @@ var Game = (function (_super) {
         /**往上跳距离：累加 */
         _this.numberDistance = 0;
         _this.cloudBottomVisable = true;
+        _this.animationNum = 0;
         _this.width = 320;
         _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.onAddToStages, _this);
         return _this;
@@ -77,6 +78,9 @@ var Game = (function (_super) {
         this.stage.addEventListener(egret.TouchEvent.TOUCH_BEGIN, this.touchStart, this);
         this.stage.addEventListener(egret.TouchEvent.TOUCH_MOVE, this.touchMove, this);
         this.stage.addEventListener(egret.TouchEvent.TOUCH_END, this.touchEnd, this);
+        this.timer = new egret.Timer(1000, this.times);
+        this.timer.addEventListener(egret.TimerEvent.TIMER, this.timerFunc, this);
+        this.timer.addEventListener(egret.TimerEvent.TIMER_COMPLETE, this.timerComFunc, this);
     };
     Game.prototype.touchStart = function (evt) {
         this.touchStatus = true;
@@ -116,6 +120,7 @@ var Game = (function (_super) {
     };
     /**停止 */
     Game.prototype.stop = function () {
+        this.timer.stop();
         this.pannelUI.personBox.removeChild(this.nowPerson);
         this.addChild(this.restartUI);
         this.isPause = true;
@@ -140,6 +145,7 @@ var Game = (function (_super) {
         this.bp_fi = 0;
         this.pcfi = 0;
         this.cloudBottomVisable = true;
+        this.animationNum = 0;
     };
     Game.prototype.onEnterFrame = function (timeStamp) {
         var now = timeStamp;
@@ -149,6 +155,12 @@ var Game = (function (_super) {
         if (this.timeNum > this.timeMax) {
             this.timeNum = 0;
             if (!this.isPause) {
+                if (this.animationNum <= 40) {
+                    this.animationNum += 0.1;
+                }
+                else {
+                    this.animationNum = 0;
+                }
                 this.wj = 100 - this.my;
                 if (this.wj < 1) {
                     this.wj = 0;
@@ -185,9 +197,7 @@ var Game = (function (_super) {
     Game.prototype.timerStart = function () {
         this.isPause = false;
         this.pannelUI.countNumber = this.times;
-        this.timer = new egret.Timer(1000, this.times);
-        this.timer.addEventListener(egret.TimerEvent.TIMER, this.timerFunc, this);
-        this.timer.addEventListener(egret.TimerEvent.TIMER_COMPLETE, this.timerComFunc, this);
+        this.timer.reset();
         this.timer.start();
     };
     Game.prototype.timerFunc = function (event) {
@@ -315,17 +325,27 @@ var Game = (function (_super) {
     };
     /**更新云朵，小人踩到云朵时才触发更新，每次踩到后云朵下降40（先写死） */
     Game.prototype.updateClouds = function () {
+        var _this = this;
         var layer = this.pannelUI.cloudBox;
-        for (var i = 0; i < layer.numChildren; i++) {
+        var _loop_1 = function (i) {
             var cloud = layer.getChildAt(i);
             if (cloud) {
-                cloud.y += 40;
-                if (cloud.y > this.pannelUI.cloudBox.height) {
-                    this.clearCloud(layer, i);
-                    this.nowCloudNumber--;
-                }
+                egret.Tween.get(cloud).to({ y: cloud.y + 40 }, 100, egret.Ease.sineIn).call(function () {
+                    if (cloud.y > _this.pannelUI.cloudBox.height) {
+                        _this.clearCloud(layer, i);
+                        _this.nowCloudNumber--;
+                        _this.repaiClouds();
+                    }
+                });
+                //cloud.y += 40;
             }
+        };
+        for (var i = 0; i < layer.numChildren; i++) {
+            _loop_1(i);
         }
+    };
+    /**缺失的云朵从顶部补回来 */
+    Game.prototype.repaiClouds = function () {
         // 缺失的云朵从顶部补回来，云朵下降速度默认写死：40
         for (var j = 0; j < (this.cloudMaxNumber - this.nowCloudNumber); j++) {
             var x = 36 * (Math.floor(7 * Math.random()));
